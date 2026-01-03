@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bluetooth Reset und Magic Keyboard Neu Kopplung</title>
+  <style>
+    :root{
+      --bg:#0e1117;
+      --panel:#161b22;
+      --muted:#9aa4b2;
+      --text:#e6edf3;
+      --border:#263040;
+      --accent:#6aa6ff;
+      --ok:#5bd27a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:18px 16px;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
+    }
+    h1{margin:0;font-size:22px}
+    p.sub{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.4}
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:10px 16px;
+      border-bottom:1px solid var(--border);
+      background:#0b0f15;
+      position:sticky;
+      top:0;
+      z-index:5;
+    }
+    nav a{
+      color:var(--text);
+      text-decoration:none;
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:13px;
+    }
+    nav a:hover{border-color:#3a455a}
+    main{
+      max-width:1100px;
+      margin:0 auto;
+      padding:22px 16px 60px;
+      display:grid;
+      gap:18px;
+    }
+    section{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+    }
+    h2{margin:0 0 10px;font-size:18px}
+    .lead{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 10px}
+    ul,ol{margin:8px 0 0 18px}
+    li{margin:6px 0}
+    .cmd{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#0b0f15;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:12px;
+      margin:10px 0;
+    }
+    .code{
+      margin:0;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      font-size:14px;
+      line-height:1.45;
+      white-space:pre-wrap;
+      word-break:break-all;
+      flex:1;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:#0e1320;
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+      min-width:88px;
+    }
+    .btn:hover{border-color:#3a455a}
+    .tag{
+      display:inline-block;
+      margin-left:8px;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#0e1320;
+      color:var(--muted);
+      font-size:12px;
+      vertical-align:middle;
+    }
+    a.inline{
+      color:var(--accent);
+      text-decoration:none;
+    }
+    a.inline:hover{text-decoration:underline}
+    .ok{color:var(--ok)}
+    footer{
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 16px 28px;
+      color:var(--muted);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bluetooth Reset und Magic Keyboard Neu Kopplung</h1>
+    <p class="sub">(macOS 26, iMac M1)<br>
+    Diese Anleitung stellt die vollständige Bluetooth-Verbindung und Funktionalität des Magic Keyboard mit Touch ID wieder her.
+    Sie behebt Probleme wie eine nicht leuchtende Caps-Lock-LED, nicht reagierende Touch ID oder Verbindungsabbrüche.</p>
+  </header>
+
+  <nav>
+    <a href="#voraussetzungen">Voraussetzungen</a>
+    <a href="#schritt1">1. Kabel</a>
+    <a href="#schritt2">2. Cache</a>
+    <a href="#schritt3">3. Neustart</a>
+    <a href="#schritt4">4. Koppeln</a>
+    <a href="#schritt5">5. Touch ID</a>
+    <a href="#schritt6">6. Prüfung</a>
+    <a href="#schritt7">7. Wenn LED nicht reagiert</a>
+    <a href="#empfehlung">Empfehlung</a>
+    <a href="Bluetooth%20Reset.pdf">PDF</a>
+  </nav>
+
+  <main>
+    <section id="voraussetzungen">
+      <h2>Voraussetzungen</h2>
+      <ul>
+        <li>Bluetooth bleibt aktiviert.</li>
+        <li>Ein Lightning-Kabel ist vorhanden.</li>
+        <li>Während der Durchführung ist mindestens ein Gerät per Kabel verbunden (Keyboard oder Trackpad).</li>
+      </ul>
+    </section>
+
+    <section id="schritt1">
+      <h2>1. Tastatur per Kabel verbinden</h2>
+      <ol>
+        <li>Magic Keyboard mit dem Lightning-Kabel an den iMac anschließen.</li>
+        <li>Prüfen, ob Tasteneingaben funktionieren.</li>
+        <li>Trackpad bleibt vorerst über Bluetooth aktiv.</li>
+      </ol>
+    </section>
+
+    <section id="schritt2">
+      <h2>2. Bluetooth Cache bereinigen <span class="tag">Terminal</span></h2>
+      <p class="lead">Terminal öffnen und nacheinander ausführen:</p>
+
+      <div class="cmd">
+        <pre class="code" id="c1">sudo rm -f /Library/Preferences/com.apple.Bluetooth.plist</pre>
+        <button class="btn" onclick="copyCmd('c1', this)">Kopieren</button>
+      </div>
+
+      <div class="cmd">
+        <pre class="code" id="c2">sudo rm -f ~/Library/Preferences/com.apple.Bluetooth.plist</pre>
+        <button class="btn" onclick="copyCmd('c2', this)">Kopieren</button>
+      </div>
+
+      <div class="cmd">
+        <pre class="code" id="c3">sudo pkill bluetoothd</pre>
+        <button class="btn" onclick="copyCmd('c3', this)">Kopieren</button>
+      </div>
+
+      <div class="cmd">
+        <pre class="code" id="c4">sudo launchctl kickstart -k system/com.apple.bluetoothd</pre>
+        <button class="btn" onclick="copyCmd('c4', this)">Kopieren</button>
+      </div>
+    </section>
+
+    <section id="schritt3">
+      <h2>3. Mac neu starten <span class="tag">Terminal</span></h2>
+      <div class="cmd">
+        <pre class="code" id="c5">sudo shutdown -r now</pre>
+        <button class="btn" onclick="copyCmd('c5', this)">Kopieren</button>
+      </div>
+    </section>
+
+    <section id="schritt4">
+      <h2>4. Nach dem Neustart korrekt koppeln</h2>
+      <ol>
+        <li>Magic Keyboard weiterhin per Kabel angeschlossen lassen, bis <span class="ok">„Verbunden“</span> angezeigt wird.</li>
+        <li>Kabel abziehen.</li>
+        <li>Systemeinstellungen → Bluetooth → prüfen, ob <span class="ok">„Magic Keyboard …“</span> als verbunden erscheint.</li>
+        <li>Falls nicht: auf <span class="ok">„Verbinden“</span> klicken.</li>
+      </ol>
+    </section>
+
+    <section id="schritt5">
+      <h2>5. Touch ID neu einrichten</h2>
+      <p class="lead">Systemeinstellungen → Touch ID & Passwort → „Fingerabdruck hinzufügen“ → Finger neu anlegen.</p>
+    </section>
+
+    <section id="schritt6">
+      <h2>6. Funktionsprüfung</h2>
+      <ul>
+        <li>Caps Lock LED: leuchtet grün bei aktivierter Umschaltsperre.</li>
+        <li>Touch ID: Entsperrung und Identifikation testen.</li>
+      </ul>
+    </section>
+
+    <section id="schritt7">
+      <h2>7. Wenn die LED weiterhin nicht reagiert</h2>
+      <ol>
+        <li>Systemeinstellungen → Bluetooth → „Magic Keyboard …“ → „Dieses Gerät vergessen“.</li>
+        <li>Tastatur an einem anderen Mac kurz koppeln und wieder trennen.</li>
+        <li>Zurück am iMac M1 → Schritt 4 erneut ausführen.</li>
+      </ol>
+    </section>
+
+    <section id="empfehlung">
+      <h2>Empfehlung</h2>
+      <p class="lead">
+        Diese Prozedur ist nur erforderlich, wenn Funktionsstörungen auftreten (z. B. keine LED-Reaktion, fehlerhafte Touch ID, Verbindungsabbrüche).
+        Ein regelmäßiges Ausführen ist nicht notwendig. Nach erfolgreicher Wiederherstellung bleibt die Bluetooth-Konfiguration dauerhaft stabil.
+      </p>
+      <p class="lead">PDF-Version: <a class="inline" href="Bluetooth%20Reset.pdf">Bluetooth Reset.pdf</a></p>
+    </section>
+  </main>
+
+  <footer>Technische Anleitung erstellt für macOS 26 · iMac M1 · Magic Keyboard mit Touch ID</footer>
+
+  <script>
+    function copyCmd(id, btn){
+      const el = document.getElementById(id);
+      const text = el.innerText.replace(/\u00A0/g,' ');
+      const done = () => {
+        const prev = btn.textContent;
+        btn.textContent = 'Kopiert';
+        btn.style.borderColor = '#5bd27a';
+        setTimeout(()=>{btn.textContent = prev; btn.style.borderColor='';}, 1200);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(el, btn));
+      } else {
+        fallbackCopy(el, btn);
+      }
+    }
+
+    function fallbackCopy(el, btn){
+      const range = document.createRange();
+      range.selectNode(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try{
+        document.execCommand('copy');
+        btn.textContent='Kopiert';
+      } catch(e){
+        btn.textContent='Fehler';
+      }
+      setTimeout(()=>{btn.textContent='Kopieren';},1200);
+      sel.removeAllRanges();
+    }
+  </script>
+</body>
+</html>
